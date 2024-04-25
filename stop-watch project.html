@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <style>
+      body {
+        height: 670px;
+        margin: 0;
+      }
+      main {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .display {
+        width: 400px;
+        height: 196px;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #nums {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 110px;
+      }
+
+      .display #sec,
+      .display #ten,
+      .display #hun,
+      .display #milli,
+      .display #min,
+      .display #sep,
+      .display #sep2,
+      .display #hours {
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 50px;
+      }
+
+      #buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+      }
+
+      .css-start-button,
+      .css-stop-button,
+      .css-reset-button {
+        /*border: none;*/
+        border-style: solid;
+        border-width: 1px;
+        /* box-shadow: 19, 10, 10, rgba(0, 0, 0, 1);*/
+        background-color: white;
+        width: 55px;
+        height: 40px;
+        border-radius: 30px;
+        transition: background-color, 0.4s;
+      }
+      .css-start-button:hover,
+      .css-stop-button:hover,
+      .css-reset-button:hover {
+        background-color: lightgray;
+      }
+      .css-start-button:active,
+      .css-stop-button:active,
+      .css-reset-button:active {
+        background-color: darkgray;
+      }
+
+      nav {
+        background-color: white;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      #stop-icon {
+        height: 40px;
+        width: 40px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img id="stop-icon" src="stop-watch-svgrepo-com.svg" alt="" />
+      <h1 style="display: inline-block">Simple Stop-watch</h1>
+    </nav>
+    <main id="con">
+      <div class="display">
+        <!--<div id="hours">0</div> -->
+        <div id="nums">
+          <div id="min">0</div>
+          <div id="sep2">:</div>
+          <div id="sec">0</div>
+          <div id="sep">.</div>
+          <div id="ten">0</div>
+          <div id="hun">0</div>
+        </div>
+
+        <div id="buttons">
+          <button class="js-start-button css-start-button">Start</button>
+          <button class="js-stop-button css-stop-button">Stop</button>
+          <button class="js-reset-button css-reset-button">Reset</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let hun = 0;
+      let ten = 0;
+      let sec = 0;
+      let min = 0;
+      let itervalID;
+      let isCounting = false;
+
+      document
+        .querySelector(".js-start-button")
+        .addEventListener("click", () => {
+          if (!isCounting) {
+            isCounting = true;
+            itervalID = setInterval(() => {
+              hun++;
+
+              document.querySelector("#hun").innerHTML = hun;
+              if (hun === 10) {
+                ten++;
+                hun = 0;
+                document.querySelector("#hun").innerHTML = hun;
+                document.querySelector("#ten").innerHTML = ten;
+              } else if (ten === 10) {
+                sec++;
+                ten = 0;
+                document.querySelector("#ten").innerHTML = ten;
+                document.querySelector("#sec").innerHTML = sec;
+              } else if (sec === 60) {
+                min++;
+                sec = 0;
+                document.querySelector("#sec").innerHTML = sec;
+                document.querySelector("#min").innerHTML = min;
+              }
+            }, 10);
+          }
+        });
+
+      document
+        .querySelector(".js-stop-button")
+        .addEventListener("click", () => {
+          clearInterval(itervalID);
+          isCounting = false;
+        });
+
+      document
+        .querySelector(".js-reset-button")
+        .addEventListener("click", () => {
+          clearInterval(itervalID);
+          isCounting = false;
+          hun = 0;
+          ten = 0;
+          sec = 0;
+          min = 0;
+          document.querySelector("#hun").innerHTML = hun;
+          document.querySelector("#ten").innerHTML = ten;
+          document.querySelector("#sec").innerHTML = sec;
+          document.querySelector("#min").innerHTML = min;
+        });
+    </script>
+  </body>
+</html>
